@@ -590,9 +590,18 @@ class MultiEndpointEtcd3Client(object):
 
     @_handle_errors
     def user_add(self, name, password):
+        is_no_password = False
+        if not password:
+            is_no_password = True
+
+        no_password = etcdrpc.UserAddOptions(
+            no_password=is_no_password
+        )
+
         user_add = etcdrpc.AuthUserAddRequest(
             name=name,
-            password=password
+            password=password,
+            options=no_password
         )
         return self.authstub.UserAdd(
             user_add,
@@ -614,6 +623,28 @@ class MultiEndpointEtcd3Client(object):
         )
 
     @_handle_errors
+    def user_get(self, name):
+        user_get = etcdrpc.AuthUserGetRequest(
+            name=name
+        )
+        return self.authstub.UserGet(
+            user_get,
+            self.timeout,
+            credentials=self.call_credentials,
+            metadata=self.metadata
+        )
+
+    @_handle_errors
+    def user_list(self):
+        user_list = etcdrpc.AuthUserListRequest()
+        return self.authstub.UserList(
+            user_list,
+            self.timeout,
+            credentials=self.call_credentials,
+            metadata=self.metadata
+        )
+
+    @_handle_errors
     def role_add(self, name):
         role_add = etcdrpc.AuthRoleAddRequest(
             name=name
@@ -625,12 +656,59 @@ class MultiEndpointEtcd3Client(object):
             metadata=self.metadata
         )
 
+
     @_handle_errors
-    def role_grant_permission(self, name, key, permType, range_end):
+    def role_delete(self, role):
+        role_delete = etcdrpc.AuthRoleDeleteRequest(
+            role=role
+        )
+        return self.authstub.RoleDelete(
+            role_delete,
+            self.timeout,
+            credentials=self.call_credentials,
+            metadata=self.metadata
+        )
+
+
+    @_handle_errors
+    def role_get(self, role):
+        role_get = etcdrpc.AuthRoleGetRequest(
+            role=role
+        )
+        return self.authstub.RoleGet(
+            role_get,
+            self.timeout,
+            credentials=self.call_credentials,
+            metadata=self.metadata
+        )
+
+
+    @_handle_errors
+    def role_list(self):
+        role_list = etcdrpc.AuthRoleListRequest()
+        return self.authstub.RoleList(
+            role_list,
+            self.timeout,
+            credentials=self.call_credentials,
+            metadata=self.metadata
+        )
+
+    @_handle_errors
+    def role_grant_permission(self, name, key, permType, range_end='', prefix=False):
+        # As rpc.proto said:
+        # key is the first key for the range. If range_end is not given, the request only looks up key.
+        # range_end is the upper bound on the requested range [key, range_end).
+        # If range_end is '\0', the range is all keys >= key.
+        # If range_end is key plus one (e.g., "aa"+1 == "ab", "a\xff"+1 == "b"),
+        # then the range request gets all keys prefixed with key.
+        range_end = utils.to_bytes(range_end)
+        if prefix:
+            range_end = utils.prefix_range_end(utils.to_bytes(key))
+
         permission = etcdrpc.Permission(
             key=utils.to_bytes(key),
             permType=permType,
-            range_end=utils.to_bytes(range_end)
+            range_end=range_end
         )
         role_grant_permission = etcdrpc.AuthRoleGrantPermissionRequest(
             name=name,
