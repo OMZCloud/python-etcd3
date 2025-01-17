@@ -589,6 +589,74 @@ class MultiEndpointEtcd3Client(object):
         )
 
     @_handle_errors
+    def user_add(self, name, password):
+        user_add = etcdrpc.AuthUserAddRequest(
+            name=name,
+            password=password
+        )
+        return self.authstub.UserAdd(
+            user_add,
+            self.timeout,
+            credentials=self.call_credentials,
+            metadata=self.metadata
+        )
+
+    @_handle_errors
+    def user_delete(self, name):
+        user_delete = etcdrpc.AuthUserDeleteRequest(
+            name=name
+        )
+        return self.authstub.UserDelete(
+            user_delete,
+            self.timeout,
+            credentials=self.call_credentials,
+            metadata=self.metadata
+        )
+
+    @_handle_errors
+    def role_add(self, name):
+        role_add = etcdrpc.AuthRoleAddRequest(
+            name=name
+        )
+        return self.authstub.RoleAdd(
+            role_add,
+            self.timeout,
+            credentials=self.call_credentials,
+            metadata=self.metadata
+        )
+
+    @_handle_errors
+    def role_grant_permission(self, name, key, permType, range_end):
+        permission = etcdrpc.Permission(
+            key=utils.to_bytes(key),
+            permType=permType,
+            range_end=utils.to_bytes(range_end)
+        )
+        role_grant_permission = etcdrpc.AuthRoleGrantPermissionRequest(
+            name=name,
+            perm=permission
+        )
+        return self.authstub.RoleGrantPermission(
+            role_grant_permission,
+            self.timeout,
+            credentials=self.call_credentials,
+            metadata=self.metadata
+        )
+
+    @_handle_errors
+    def user_grant_role(self, user, role):
+        user_grant_role = etcdrpc.AuthUserGrantRoleRequest(
+            user=user,
+            role=role
+        )
+        return self.authstub.UserGrantRole(
+            user_grant_role,
+            self.timeout,
+            credentials=self.call_credentials,
+            metadata=self.metadata
+        )
+
+    @_handle_errors
     def put_if_not_exists(self, key, value, lease=None):
         """
         Atomically puts a value only if the key previously had no value.
