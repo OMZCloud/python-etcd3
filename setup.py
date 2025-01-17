@@ -25,7 +25,7 @@ test_requirements = load_reqs('requirements/test.txt')
 
 setup(
     name='etcd3',
-    version='0.12.0',
+    version='1.0',
     description="Python client for the etcd3 API",
     long_description=readme + '\n\n' + history,
     author="Louis Taylor",
@@ -34,10 +34,16 @@ setup(
     packages=[
         'etcd3',
         'etcd3.etcdrpc',
+        'etcd3.etcdrpc.google.api',
+        'etcd3.etcdrpc.google.protobuf',
+        'etcd3.etcdrpc.gogoproto',
     ],
     package_dir={
         'etcd3': 'etcd3',
         'etcd3.etcdrpc': 'etcd3/etcdrpc',
+        'etcd3.etcdrpc.google.api': 'etcd3/etcdrpc/google/api',
+        'etcd3.etcdrpc.google.protobuf': 'etcd3/etcdrpc/google/protobuf',
+        'etcd3.etcdrpc.gogoproto': 'etcd3/etcdrpc/gogoproto',
     },
     include_package_data=True,
     install_requires=requirements,
