@@ -4,7 +4,7 @@ packages:
   - python-pip
   - python39
 sources:
-  - https://github.com/kragniz/python-etcd3
+  - https://github.com/OMZCloud/python-etcd3
 environment:
   TEST_ETCD_VERSION: v3.3.10
 tasks:

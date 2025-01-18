@@ -971,7 +971,7 @@ class TestEtcd3(object):
         def release_lock_before_watch(*args, **kwargs):
             watch_called[0] += 1
             # Simulates the case where key is expired before watch is called.
-            # See https://github.com/kragniz/python-etcd3/issues/1107
+            # See https://github.com/OMZCloud/python-etcd3/issues/1107
             lock1.release()
             return original_watch(*args, **kwargs)
 

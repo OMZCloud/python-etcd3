@@ -30,7 +30,7 @@ setup(
     long_description=readme + '\n\n' + history,
     author="Louis Taylor",
     author_email='louis@kragniz.eu',
-    url='https://github.com/daikk115/python-etcd3',
+    url='https://github.com/OMZCloud/python-etcd3',
     packages=[
         'etcd3',
         'etcd3.etcdrpc',
