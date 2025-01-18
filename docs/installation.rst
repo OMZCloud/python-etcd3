@@ -14,7 +14,7 @@ To install python-etcd3, run this command in your terminal:
 
     $ pip install etcd3
 
-This is the preferred method to install python-etcd3, as it will always install the most recent stable release. 
+This is the preferred method to install python-etcd3, as it will always install the most recent stable release.
 
 If you don't have `pip`_ installed, this `Python installation guide`_ can guide
 you through the process.
@@ -38,7 +38,7 @@ Or download the `tarball`_:
 
 .. code-block:: console
 
-    $ curl  -OL https://github.com/kragniz/python-etcd3/tarball/master
+    $ curl  -OL https://github.com/OMZCloud/python-etcd3/tarball/master
 
 Once you have a copy of the source, you can install it with:
 
@@ -47,5 +47,5 @@ Once you have a copy of the source, you can install it with:
     $ python setup.py install
 
 
-.. _Github repo: https://github.com/kragniz/python-etcd3
-.. _tarball: https://github.com/kragniz/python-etcd3/tarball/master
+.. _Github repo: https://github.com/OMZCloud/python-etcd3
+.. _tarball: https://github.com/OMZCloud/python-etcd3/tarball/master
